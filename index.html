@@ -12,11 +12,69 @@
       rel="stylesheet"
     />
 
+    <!-- Font awesome icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <!-- CSS link -->
     <link rel="stylesheet" href="index.css" />
     <title>We are Champions</title>
   </head>
   <body>
+    <div class="wrapper">
+      <img
+        id="champion-image"
+        src="assets/img/Freddie.png"
+        alt="Freddie image"
+      />
+      <h1 class="wrapper-header">We are the Champions</h1>
+      <textarea
+        placeholder="Write your endorsement here"
+        name=""
+        id=""
+        cols="30"
+        rows="10"
+      ></textarea>
+      <div class="from-to-field">
+        <input type="text" placeholder="From" />
+        <input type="text" placeholder="To" />
+      </div>
+      <button id="publish-btn">Publish</button>
+
+      <section id="endorsement-section">
+        <h2 id="endorsement-header">- Endorsements -</h2>
+        <div class="endorsement-container">
+          <h3>To Leanne</h3>
+          <p>
+            Leanne! Thank you so much for helping me with the March accounting.
+            Saved so much time because of you! 💜 Frode
+          </p>
+          <div class="like-btn-container">
+            <h3>From Frode</h3>
+            <i class="fa-solid fa-heart love-icon"> <span>1</span></i>
+          </div>
+        </div>
+
+        <div class="endorsement-container">
+          <h3>To Leanne</h3>
+          <p>
+            Leanne! Thank you so much for helping me with the March accounting.
+            Saved so much time because of you! 💜 Frode
+          </p>
+          <div class="like-btn-container">
+            <h3>From Frode</h3>
+            <i class="fa-solid fa-heart love-icon"> <span>1</span></i>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Javascript link -->
     <script type="module" src="index.js"></script>
   </body>
 </html>
