@@ -37,11 +37,14 @@ publishBtn.addEventListener("click", () => {
   let endorsementTo = toInputBtn.value;
 
   //   in order to push the object to the database in group, this is an object to represent the endorsement
-
+  let endorsementData = {
+    from: endorsementFrom,
+    paragraph: endorsementParagraph,
+    to: endorsementTo,
+    count: 0, // Initial count value
+  };
   //   to push input data into the database
-  push(EndorsementListInDB, endorsementFrom);
-  push(EndorsementListInDB, endorsementParagraph);
-  push(EndorsementListInDB, endorsementTo);
+  push(EndorsementListInDB, endorsementData);
 
   //   calling the appendEndorsement function
   appendEndorsement(endorsementFrom, endorsementParagraph, endorsementTo);
@@ -51,16 +54,23 @@ publishBtn.addEventListener("click", () => {
   clearInputFields(endorsementInputValue);
 });
 
-// fetching the data from database in realtime || using snapshot
+// fetching the data from database in realtime || using snapshot // // Get an array of endorsement objects
 
 onValue(EndorsementListInDB, function (snapshot) {
   let endorsementArray = Object.values(snapshot.val());
 
-  // looping through the array
+  // clear the existing content of the endorsement container
+  clearEndorsementContainer();
+
+  // Loop through the array
   for (let i = 0; i < endorsementArray.length; i++) {
-    // append item to the endorsement list element for each
-    // iteration passing the item array in the append endorsement function
-    appendEndorsement(endorsementArray[i]);
+    // Access individual fields from the object
+    let endorsementFrom = endorsementArray[i].from;
+    let endorsementParagraph = endorsementArray[i].paragraph;
+    let endorsementTo = endorsementArray[i].to;
+
+    // Append item to the endorsement list element for each iteration
+    appendEndorsement(endorsementFrom, endorsementParagraph, endorsementTo);
   }
 });
 
@@ -114,4 +124,21 @@ function appendEndorsement(
 // clear input field(clear)
 function clearInputFields(clear) {
   clear.value = "";
+}
+
+function clearEndorsementContainer() {
+  let endorsementSection = document.querySelector("#endorsement-section");
+
+  // Keep the header content inside the container
+  let endorsementHeader = endorsementSection.querySelector(
+    "#endorsement-header"
+  );
+
+  // Clear only the endorsements, not the additional content
+  endorsementSection.innerHTML = "";
+
+  // Restore the additional content
+  if (endorsementHeader) {
+    endorsementSection.appendChild(endorsementHeader);
+  }
 }
