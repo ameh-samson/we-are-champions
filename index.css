@@ -14,6 +14,7 @@ body {
   background: hsla(251, 18%, 12%, 1);
   line-height: 1.4;
   user-select: none;
+  height: 100dvh;
 }
 
 img {
@@ -104,6 +105,11 @@ textarea {
   cursor: pointer;
 }
 
+#publish-btn:hover {
+  color: hsla(0, 0%, 100%, 1);
+  background: hsla(201, 90%, 27%, 1);
+}
+
 #endorsement-header {
   color: hsla(0, 0%, 100%, 1);
   font-family: "Josefin Sans", sans-serif;
@@ -143,4 +149,8 @@ textarea {
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
+}
+
+.love-icon:hover {
+  color: hsla(202, 88%, 55%, 1);
 }
