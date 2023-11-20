@@ -69,7 +69,6 @@ onValue(EndorsementListInDB, function (snapshot) {
     let endorsementFrom = endorsementArray[i].from;
     let endorsementParagraph = endorsementArray[i].paragraph;
     let endorsementTo = endorsementArray[i].to;
-
     // Append item to the endorsement list element for each iteration
     appendEndorsement(endorsementFrom, endorsementParagraph, endorsementTo);
   }
@@ -113,6 +112,10 @@ function appendEndorsement(
 
   endorsementContainer.appendChild(endorseDivEl);
 
+  endorsementContainer.addEventListener("click", () => {
+    console.log("clicked");
+  });
+
   //   like count eventlistener
   let count = 0;
 
@@ -120,15 +123,7 @@ function appendEndorsement(
     // Update the count locally
     count++;
     likeCount.textContent = count;
-
-    // Update the count in the database
-    updateCountInDatabase(endorsementDataKey, count); // Pass the key of the corresponding endorsement in the database
   });
-}
-
-function updateCountInDatabase(endorsementKey, newCount) {
-  let countRef = ref(EndorsementListInDB, endorsementKey + "/count");
-  push(countRef, newCount);
 }
 
 // clear input field(clear)
