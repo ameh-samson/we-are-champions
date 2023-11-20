@@ -36,20 +36,21 @@ publishBtn.addEventListener("click", () => {
   let endorsementParagraph = endorsementInputValue.value;
   let endorsementTo = toInputBtn.value;
 
-  //   in order to push the object to the database in group, this is an object to represent the endorsement
+  // Create endorsementData object
   let endorsementData = {
     from: endorsementFrom,
     paragraph: endorsementParagraph,
     to: endorsementTo,
-    count: 0, // Initial count value
+    count: 0,
   };
 
-  //   to push input data into the database
+  // Push data to the database
   push(EndorsementListInDB, endorsementData);
 
-  //   //   calling the appendEndorsement function
-  //   appendEndorsement(endorsementFrom, endorsementParagraph, endorsementTo, 0);
+  // Append endorsement to the document
+  appendEndorsement(endorsementData);
 
+  // Clear input fields after appending
   clearInputFields(fromInputBtn);
   clearInputFields(toInputBtn);
   clearInputFields(endorsementInputValue);
@@ -58,65 +59,50 @@ publishBtn.addEventListener("click", () => {
 // fetching the data from database in realtime || using snapshot // // Get an array of endorsement objects
 
 onValue(EndorsementListInDB, function (snapshot) {
-  let endorsementArray = Object.values(snapshot.val());
-
-  // clear the existing content of the endorsement container
-  clearEndorsementContainer();
+  let endorsementArray = Object.entries(snapshot.val());
 
   // Loop through the array
   for (let i = 0; i < endorsementArray.length; i++) {
     // Access individual fields from the object
-    let endorsementFrom = endorsementArray[i].from;
-    let endorsementParagraph = endorsementArray[i].paragraph;
-    let endorsementTo = endorsementArray[i].to;
+    let currentItem = endorsementArray[i];
+
+    let currentItemID = currentItem[0];
+    let currentItemValue = currentItem[1];
     // Append item to the endorsement list element for each iteration
-    appendEndorsement(endorsementFrom, endorsementParagraph, endorsementTo);
+    appendEndorsement(currentItemValue);
   }
 });
 
 // append endorsement to the document
-function appendEndorsement(
-  endorsementFrom,
-  endorsementParagraph,
-  endorsementTo
-) {
+function appendEndorsement(item) {
+  let endorsementFrom = item.from;
+  let endorsementParagraph = item.paragraph;
+  let endorsementTo = item.to;
+  let like = item.count;
+
   let endorsementContainer = document.querySelector("#endorsement-section");
 
   let endorseDivEl = document.createElement("div");
   endorseDivEl.classList.add("endorsement-container");
 
-  let endorsementFromEl = document.createElement("h3");
-  endorsementFromEl.textContent = endorsementFrom;
-  endorseDivEl.appendChild(endorsementFromEl);
+  endorseDivEl.innerHTML = `
+    <h3>${endorsementFrom}</h3>
+    <p>${endorsementParagraph}</p>
+    <div class="like-btn-container">
+      <h3>${endorsementTo}</h3>
+      <i class="fa-solid fa-heart love-icon"> <span class= "count">${like}</span></i>
+    </div>
+  `;
 
-  let endorsementParagraphEl = document.createElement("p");
-  endorsementParagraphEl.textContent = endorsementParagraph;
-  endorseDivEl.appendChild(endorsementParagraphEl);
-
-  let likeBtnContainer = document.createElement("div");
-  likeBtnContainer.classList.add("like-btn-container");
-
-  let endorsementToEl = document.createElement("h3");
-  endorsementToEl.textContent = endorsementTo;
-  likeBtnContainer.appendChild(endorsementToEl);
-
-  let likeIconEl = document.createElement("i");
-  likeIconEl.classList.add("fa-solid", "fa-heart", "love-icon");
-
-  let likeCount = document.createElement("span");
-  likeCount.classList.add("count");
-  likeIconEl.appendChild(likeCount);
-
-  likeBtnContainer.appendChild(likeIconEl);
-  endorseDivEl.appendChild(likeBtnContainer);
+  endorseDivEl.addEventListener("click", () => {});
 
   endorsementContainer.appendChild(endorseDivEl);
 
-  endorsementContainer.addEventListener("click", () => {
-    console.log("clicked");
-  });
+  // Find likeIconEl and likeCount within endorseDivEl
+  let likeIconEl = endorseDivEl.querySelector(".fa-heart");
+  let likeCount = endorseDivEl.querySelector(".count");
 
-  //   like count eventlistener
+  // like count eventlistener
   let count = 0;
 
   likeIconEl.addEventListener("click", () => {
@@ -129,21 +115,4 @@ function appendEndorsement(
 // clear input field(clear)
 function clearInputFields(clear) {
   clear.value = "";
-}
-
-function clearEndorsementContainer() {
-  let endorsementSection = document.querySelector("#endorsement-section");
-
-  // Keep the header content inside the container
-  let endorsementHeader = endorsementSection.querySelector(
-    "#endorsement-header"
-  );
-
-  // Clear only the endorsements, not the additional content
-  endorsementSection.innerHTML = "";
-
-  // Restore the additional content
-  if (endorsementHeader) {
-    endorsementSection.appendChild(endorsementHeader);
-  }
 }
