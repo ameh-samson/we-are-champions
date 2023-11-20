@@ -43,11 +43,12 @@ publishBtn.addEventListener("click", () => {
     to: endorsementTo,
     count: 0, // Initial count value
   };
+
   //   to push input data into the database
   push(EndorsementListInDB, endorsementData);
 
-  //   calling the appendEndorsement function
-  appendEndorsement(endorsementFrom, endorsementParagraph, endorsementTo);
+  //   //   calling the appendEndorsement function
+  //   appendEndorsement(endorsementFrom, endorsementParagraph, endorsementTo, 0);
 
   clearInputFields(fromInputBtn);
   clearInputFields(toInputBtn);
@@ -116,9 +117,18 @@ function appendEndorsement(
   let count = 0;
 
   likeIconEl.addEventListener("click", () => {
+    // Update the count locally
     count++;
     likeCount.textContent = count;
+
+    // Update the count in the database
+    updateCountInDatabase(endorsementDataKey, count); // Pass the key of the corresponding endorsement in the database
   });
+}
+
+function updateCountInDatabase(endorsementKey, newCount) {
+  let countRef = ref(EndorsementListInDB, endorsementKey + "/count");
+  push(countRef, newCount);
 }
 
 // clear input field(clear)
