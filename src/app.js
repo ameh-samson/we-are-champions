@@ -36,11 +36,12 @@ publishBtn.addEventListener("click", () => {
   let endorsementParagraph = endorsementInputValue.value;
   let endorsementTo = toInputBtn.value;
 
+  //   in order to push the object to the database in group, this is an object to represent the endorsement
+
   //   to push input data into the database
   push(EndorsementListInDB, endorsementFrom);
   push(EndorsementListInDB, endorsementParagraph);
   push(EndorsementListInDB, endorsementTo);
-  console.log(endorsementFrom);
 
   //   calling the appendEndorsement function
   appendEndorsement(endorsementFrom, endorsementParagraph, endorsementTo);
@@ -54,6 +55,13 @@ publishBtn.addEventListener("click", () => {
 
 onValue(EndorsementListInDB, function (snapshot) {
   let endorsementArray = Object.values(snapshot.val());
+
+  // looping through the array
+  for (let i = 0; i < endorsementArray.length; i++) {
+    // append item to the endorsement list element for each
+    // iteration passing the item array in the append endorsement function
+    appendEndorsement(endorsementArray[i]);
+  }
 });
 
 // append endorsement to the document
