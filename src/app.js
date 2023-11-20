@@ -62,3 +62,8 @@ function appendEndorsement(
     likeCount.textContent = count;
   });
 }
+
+// clear input field(clear)
+function clearInputFields(clear) {
+  clear.value = "";
+}
