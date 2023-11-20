@@ -1,3 +1,27 @@
+// import the firebase function initialize app
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+
+// get the firebase database
+import {
+  getDatabase,
+  ref,
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+
+// get the database url from the firebase project console
+const appSettings = {
+  databaseURL:
+    "https://realtime-database-e6f12-default-rtdb.europe-west1.firebasedatabase.app/",
+};
+
+// setting the app variable and passing the appsettings const which links the project to firebase
+const app = initializeApp(appSettings);
+
+// creating database variable
+const database = getDatabase(app);
+
+// setting up the reference in the database for the project
+const EndorsementListInDB = ref(database, "EndorsementList");
+
 const publishBtn = document.querySelector("#publish-btn");
 const fromInputBtn = document.querySelector("#from-input-value");
 const toInputBtn = document.querySelector("#to-input-value");
