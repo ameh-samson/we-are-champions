@@ -61,6 +61,9 @@ publishBtn.addEventListener("click", () => {
 onValue(EndorsementListInDB, function (snapshot) {
   let endorsementArray = Object.entries(snapshot.val());
 
+  // clear the existing content of the endorsement container
+  clearEndorsementContainer();
+
   // Loop through the array
   for (let i = 0; i < endorsementArray.length; i++) {
     // Access individual fields from the object
@@ -115,4 +118,21 @@ function appendEndorsement(item) {
 // clear input field(clear)
 function clearInputFields(clear) {
   clear.value = "";
+}
+
+function clearEndorsementContainer() {
+  let endorsementSection = document.querySelector("#endorsement-section");
+
+  // Keep the header content inside the container
+  let endorsementHeader = endorsementSection.querySelector(
+    "#endorsement-header"
+  );
+
+  // Clear only the endorsements, not the additional content
+  endorsementSection.innerHTML = "";
+
+  // Restore the additional content
+  if (endorsementHeader) {
+    endorsementSection.appendChild(endorsementHeader);
+  }
 }
