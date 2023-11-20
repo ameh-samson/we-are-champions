@@ -1,10 +1,12 @@
 // import the firebase function initialize app
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 
-// get the firebase database
+// get the firebase database || any function used must be imported e.g ref, push etc
 import {
   getDatabase,
   ref,
+  push,
+  onValue,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 // get the database url from the firebase project console
@@ -34,6 +36,13 @@ publishBtn.addEventListener("click", () => {
   let endorsementParagraph = endorsementInputValue.value;
   let endorsementTo = toInputBtn.value;
 
+  //   to push input data into the database
+  push(EndorsementListInDB, endorsementFrom);
+  push(EndorsementListInDB, endorsementParagraph);
+  push(EndorsementListInDB, endorsementTo);
+  console.log(endorsementFrom);
+
+  //   calling the appendEndorsement function
   appendEndorsement(endorsementFrom, endorsementParagraph, endorsementTo);
 
   clearInputFields(fromInputBtn);
@@ -41,6 +50,13 @@ publishBtn.addEventListener("click", () => {
   clearInputFields(endorsementInputValue);
 });
 
+// fetching the data from database in realtime || using snapshot
+
+onValue(EndorsementListInDB, function (snapshot) {
+  let endorsementArray = Object.values(snapshot.val());
+});
+
+// append endorsement to the document
 function appendEndorsement(
   endorsementFrom,
   endorsementParagraph,
