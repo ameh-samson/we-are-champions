@@ -47,8 +47,8 @@ publishBtn.addEventListener("click", () => {
   // Push data to the database
   push(EndorsementListInDB, endorsementData);
 
-  // Append endorsement to the document
-  appendEndorsement(endorsementData);
+  // // Append endorsement to the document
+  // appendEndorsement(endorsementData);
 
   // Clear input fields after appending
   clearInputFields(fromInputBtn);
@@ -71,8 +71,9 @@ onValue(EndorsementListInDB, function (snapshot) {
 
     let currentItemID = currentItem[0];
     let currentItemValue = currentItem[1];
+    console.log(currentItemID);
     // Append item to the endorsement list element for each iteration
-    appendEndorsement(currentItemValue);
+    appendEndorsement(currentItemValue, currentItemID);
   }
 });
 
@@ -82,6 +83,8 @@ function appendEndorsement(item) {
   let endorsementParagraph = item.paragraph;
   let endorsementTo = item.to;
   let like = item.count;
+  // currentItemID = item[0];
+  // console.log(currentItemID);
 
   let endorsementContainer = document.querySelector("#endorsement-section");
 
@@ -97,7 +100,9 @@ function appendEndorsement(item) {
     </div>
   `;
 
-  endorseDivEl.addEventListener("click", () => {});
+  // endorseDivEl.addEventListener("click", () => {
+  //   console.log(currentItemID);
+  // });
 
   endorsementContainer.appendChild(endorseDivEl);
 
