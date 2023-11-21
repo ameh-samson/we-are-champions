@@ -7,6 +7,7 @@ import {
   ref,
   push,
   onValue,
+  remove,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 // get the database url from the firebase project console
@@ -28,6 +29,7 @@ const publishBtn = document.querySelector("#publish-btn");
 const fromInputBtn = document.querySelector("#from-input-value");
 const toInputBtn = document.querySelector("#to-input-value");
 const endorsementInputValue = document.querySelector("#text-area");
+let endorsementSection = document.querySelector("#endorsement-section");
 
 // Add eventlistener to the publish button
 
@@ -59,32 +61,35 @@ publishBtn.addEventListener("click", () => {
 // fetching the data from database in realtime || using snapshot // // Get an array of endorsement objects
 
 onValue(EndorsementListInDB, function (snapshot) {
-  let endorsementArray = Object.entries(snapshot.val());
+  // snapshot.exists() to show items when there are items in the database
+  // and if there are not displays the text 'No items here... yet'.
+  if (snapshot.exists()) {
+    let endorsementArray = Object.entries(snapshot.val());
 
-  // clear the existing content of the endorsement container
-  clearEndorsementContainer();
+    // clear the existing content of the endorsement container
+    clearEndorsementContainer();
 
-  // Loop through the array
-  for (let i = 0; i < endorsementArray.length; i++) {
-    // Access individual fields from the object
-    let currentItem = endorsementArray[i];
+    // Loop through the array
+    for (let i = 0; i < endorsementArray.length; i++) {
+      // Access individual fields from the object
+      let currentItem = endorsementArray[i];
 
-    let currentItemID = currentItem[0];
-    let currentItemValue = currentItem[1];
-    console.log(currentItemID);
-    // Append item to the endorsement list element for each iteration
-    appendEndorsement(currentItemValue, currentItemID);
+      let currentItemID = currentItem[0];
+      let currentItemValue = currentItem[1];
+      // Append item to the endorsement list element for each iteration
+      appendEndorsement(currentItemValue, currentItemID);
+    }
+  } else {
+    endorsementSection.innerHTML = `<p class ="no-item-paragraph">No items here...... yet</p>`;
   }
 });
 
 // append endorsement to the document
-function appendEndorsement(item) {
+function appendEndorsement(item, currentItemID) {
   let endorsementFrom = item.from;
   let endorsementParagraph = item.paragraph;
   let endorsementTo = item.to;
   let like = item.count;
-  // currentItemID = item[0];
-  // console.log(currentItemID);
 
   let endorsementContainer = document.querySelector("#endorsement-section");
 
@@ -100,9 +105,17 @@ function appendEndorsement(item) {
     </div>
   `;
 
-  // endorseDivEl.addEventListener("click", () => {
-  //   console.log(currentItemID);
-  // });
+  endorseDivEl.addEventListener("click", () => {
+    // gets the exact location of the list before funning a function on it
+
+    let exactLocationOfItemInDB = ref(
+      database,
+      `EndorsementList/${currentItemID}`
+    );
+
+    // remove function to remove the item from the database
+    remove(exactLocationOfItemInDB);
+  });
 
   endorsementContainer.appendChild(endorseDivEl);
 
@@ -126,7 +139,7 @@ function clearInputFields(clear) {
 }
 
 function clearEndorsementContainer() {
-  let endorsementSection = document.querySelector("#endorsement-section");
+  // let endorsementSection = document.querySelector("#endorsement-section");
 
   // Keep the header content inside the container
   let endorsementHeader = endorsementSection.querySelector(

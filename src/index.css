@@ -169,3 +169,11 @@ textarea:focus {
 .count {
   margin-left: 10px;
 }
+
+.no-item-paragraph {
+  color: hsla(251, 18%, 12%, 1);
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  background: hsla(0, 0%, 100%, 1);
+  padding: 13px 14px;
+}
