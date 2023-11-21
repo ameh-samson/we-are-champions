@@ -105,7 +105,7 @@ function appendEndorsement(item, currentItemID) {
     </div>
   `;
 
-  endorseDivEl.addEventListener("click", () => {
+  endorseDivEl.addEventListener("dblclick", () => {
     // gets the exact location of the list before funning a function on it
 
     let exactLocationOfItemInDB = ref(
