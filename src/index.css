@@ -150,6 +150,11 @@ textarea:focus {
   text-align: justify;
 }
 
+.endorsement-container:hover {
+  cursor: pointer;
+  background-color: #ffecc7;
+}
+
 .like-btn-container {
   display: flex;
   justify-content: space-between;
